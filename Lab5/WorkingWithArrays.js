@@ -13,7 +13,7 @@ export default function WorkingWithArrays(app) {
 
         res.json(todos);
         });
-        
+
     app.get("/lab5/todos/create", (req, res) => {
         const newTodo = { id: new Date().getTime(), title: "New Task", completed: false };
         todos.push(newTodo);
@@ -80,6 +80,14 @@ export default function WorkingWithArrays(app) {
         const {id, description} = req.params;
         const todo = todos.find((t)=> t.id==parseInt(id))
         todo.description=description
+        res.json(todos);
+        })
+    
+
+    app.get("/lab5/todos/:id/completed/:completed", (req, res)=>{
+        const {id, completed} = req.params;
+        const todo = todos.find((t)=> t.id==parseInt(id))
+        todo.completed=completed
         res.json(todos);
         })
     };
