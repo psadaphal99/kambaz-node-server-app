@@ -18,7 +18,7 @@ app.post("/api/assignments/:courseId/assignment", async (req, res) => {
       ...req.body,
       course: courseId,
     };
-    const newAssignment = assignmentsDao.createAssignment(assignment);
+    const newAssignment = await assignmentsDao.createAssignment(assignment);
     res.send(newAssignment);
   });
 

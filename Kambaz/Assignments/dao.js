@@ -1,27 +1,25 @@
-import Database from "../Database/index.js";
-import { v4 as uuidv4 } from "uuid";
+import model from "./model.js";
+// import Database from "../Database/index.js";
+// import { v4 as uuidv4 } from "uuid";
 
 export async function findModulesForCourse(courseId) {
-  const { assignments } = Database;
-  return assignments.filter((assignment) => assignment.course === courseId);
+  console.log('course id = ', courseId)
+  const assignments = await model.find({course:courseId});
+  console.log("assignment = ", assignments)
+  return assignments
 }
 
 export async function deleteAssignment(assignmentId) {
-    const { assignments } = Database;
-    Database.assignments = assignments.filter((a) => a._id !== assignmentId);
+    await model.deleteOne({_id: assignmentId})
    }
 
-export function createAssignment(assignment) {
-    const newAssignment = { ...assignment, _id: uuidv4() };
-    Database.assignments = [...Database.assignments, newAssignment];
-    return newAssignment;
+export async function createAssignment(assignment) {
+    const newAssignment = { ...assignment};
+    return await model.create(newAssignment)
   }
 
-export function updateAssignment(assignmentId, assignmentUpdates) {
-    const { assignments } = Database;
-    const assignment = assignments.find((a) => a._id === assignmentId);
-    console.log("assignment = ", assignment)
-    Object.assign(assignment, assignmentUpdates);
-    return assignment;
+export async function updateAssignment(assignmentId, assignmentUpdates) {
+
+    return await model.updateOne({ _id: assignmentId }, { $set: assignmentUpdates });
   }
   
